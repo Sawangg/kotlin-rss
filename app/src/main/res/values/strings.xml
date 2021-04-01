@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">kotlin-rss</string>
+    <string name="logo_desc">Le logo de notre application</string>
 </resources>
