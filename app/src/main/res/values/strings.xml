@@ -1,4 +1,19 @@
 <resources>
     <string name="app_name">kotlin-rss</string>
+
+    <string name="no_flux">Please add a RSS flux</string>
+
+    <string name="add_flux_title">Flux creation</string>
+    <string name="add_flux_name_title">Flux name</string>
+    <string name="add_flux_name_caption">Name</string>
+    <string name="add_flux_uri_title">Flux URI</string>
+    <string name="add_flux_uri_caption">URI</string>
+    <string name="add_flux_add_button">ADD</string>
+
+    <string name="nav_filter_text">FILTER</string>
     <string name="logo_desc">Le logo de notre application</string>
+    <string name="ic_add_desc">Bouton d ajout de flux</string>
+    <string name="ic_arrow_drop_desc">Icon fleche vers le bas</string>
+    <string name="ic_edit_desc">Bouton d edition du flux</string>
+
 </resources>
