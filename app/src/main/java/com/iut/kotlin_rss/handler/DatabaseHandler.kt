@@ -81,9 +81,12 @@ class DatabaseHandler(context: Context) :
     fun updateFlux(flux: Flux): Int {
         val db = this.writableDatabase
         val contentValues = ContentValues()
+        contentValues.put(KEY_URL, flux.url)
+        contentValues.put(KEY_CATEGORY, flux.category)
+        contentValues.put(FLUX_NAME, flux.name)
 
         // Updating Row
-        val success = db.update(TABLE_CONTACTS, contentValues, KEY_URL + "=" + flux.url, null)
+        val success = db.update(TABLE_CONTACTS, contentValues, "$KEY_ID = ${flux.id}", null)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success
