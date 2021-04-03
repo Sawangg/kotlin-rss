@@ -19,6 +19,8 @@
     <string name="filter_filter_button">FILTER</string>
     <string name="filter_dor">Display only results</string>
 
+    <string name="default_edit_title">Le Monde</string>
+    <string name="default_edit_uri">https://www.lemonde.fr/rss/une.xml</string>
 
     <string name="nav_filter_text">FILTER</string>
     <string name="logo_desc">Le logo de notre application</string>
