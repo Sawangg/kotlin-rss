@@ -14,6 +14,7 @@ class EditFlux : AppCompatActivity() {
 
     lateinit var fluxName : EditText
     lateinit var fluxUrl : EditText
+    lateinit var fluxFav : ToggleButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +23,8 @@ class EditFlux : AppCompatActivity() {
         val name = intent.getStringExtra("FluxName")
         val url = intent.getStringExtra("FluxUrl")
         val category = intent.getStringExtra("FluxCategory")
+        val fav = intent.getStringExtra("FluxFav")
+
         val themedButtonGroup = findViewById<ThemedToggleButtonGroup>(R.id.category_wrapper_group)
         themedButtonGroup.buttons.forEach {
             if(it.text == category){
@@ -30,8 +33,15 @@ class EditFlux : AppCompatActivity() {
         }
         fluxName = findViewById(R.id.flux_name)
         fluxUrl = findViewById(R.id.flux_uri)
+        fluxFav = findViewById(R.id.edit_favorite)
         fluxName.setText(name)
         fluxUrl.setText(url)
+
+        if(fav.toBoolean()){
+            fluxFav.toggle()
+        }
+
+
 
         val buttonDelete : Button = findViewById(R.id.delete_flux_delete_button)
         buttonDelete.setOnClickListener {
@@ -69,6 +79,7 @@ class EditFlux : AppCompatActivity() {
         if(name.trim()!="" && url.trim()!="" ){
             val flux = Flux(name,url,category);
             flux.id = id.toInt()
+            flux.fav = fluxFav.isChecked
             val status = databaseHandler.updateFlux(flux)
             if(status > -1){
                 fluxName.text.clear()

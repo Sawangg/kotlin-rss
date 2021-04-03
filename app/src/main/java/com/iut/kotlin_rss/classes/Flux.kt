@@ -3,6 +3,7 @@ package com.iut.kotlin_rss.classes
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.prof.rssparser.Channel
 import com.prof.rssparser.Parser
@@ -48,6 +49,7 @@ class Flux(var name : String?, var url : String?, var category : String?) : Parc
                 listLink.add(it.link!!)
                 if(it.pubDate != null){
                     listDate.add(it.pubDate!!)
+//                    Log.e("t",it.pubDate.);
                 }else {
                     listDate.add("")
                 }

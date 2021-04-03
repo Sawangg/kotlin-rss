@@ -46,6 +46,7 @@ class EditActivity : AppCompatActivity() {
             intent.putExtra("FluxName", flux.name)
             intent.putExtra("FluxUrl", flux.url)
             intent.putExtra("FluxCategory", flux.category)
+            intent.putExtra("FluxFav", flux.fav.toString())
             startActivity(intent)
             finish()
         }

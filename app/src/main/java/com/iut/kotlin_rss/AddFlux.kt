@@ -40,12 +40,15 @@ class AddFlux : AppCompatActivity() {
         val name = flux_name.text.toString()
         val url = flux_uri.text.toString()
         val btn = themedButtonGroup.selectedButtons
+        val fav = findViewById<ToggleButton>(R.id.add_favorite)
         if(btn.isEmpty()) return Toast.makeText(applicationContext,"Please add a category", Toast.LENGTH_LONG).show()
         val category = btn[0].text
-        Log.e("tag", category)
+
         val databaseHandler = DatabaseHandler(context = this)
         if(name.trim()!="" && url.trim()!="" ) {
-            val status = databaseHandler.addFlux(Flux(name, url ,category))
+            val flux = Flux(name, url ,category)
+            flux.fav = fav.isChecked
+            val status = databaseHandler.addFlux(flux)
             if(status > -1) {
                 flux_name.text.clear()
                 flux_uri.text.clear()
