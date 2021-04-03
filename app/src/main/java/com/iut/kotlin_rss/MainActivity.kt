@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private val notificationId = 101;
     lateinit var listView: ListView;
 
+
     private fun createNotificationChannel() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -59,9 +60,7 @@ class MainActivity : AppCompatActivity() {
     *  - Faire tout le design de l'edit de flux
     *  - Permettre l'edition de flux dans le backend
     *  - Faire le filtering dans le design et le backend
-    *  - Checker si il y a au moins un flux et afficher le message @string/no_flux sinon
     *  - Faire l'envoi de notif maintenant que le handler est fait
-    *  - En gros faire des trucs qui marche mnt qu'il y a un début de design
     * */
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -83,69 +82,38 @@ class MainActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "TAG")
         }
 
-        if(intent.getStringArrayExtra("Title") != null  && intent.getStringArrayExtra("Content") != null){
-            val arrTitle = intent.getStringArrayExtra("Title")!!
-            val arrContent = intent.getStringArrayExtra("Content")!!
-            listView.adapter = ArticleAdapter(this, arrTitle, arrContent)
-
+        if(intent.getParcelableArrayListExtra<Flux>("Flux") != null) {
+            val fluxs = intent.getParcelableArrayListExtra<Flux>("Flux") !!
+            val arrTitle = ArrayList<String>()
+            val arrDesc = ArrayList<String>()
+            fluxs.forEach {
+                it.formatAllArticles(arrTitle, arrDesc)
+            }
+            listView.adapter = ArticleAdapter(this, arrTitle, arrDesc)
+          
             val tv : TextView = findViewById(R.id.no_flux)
             tv.visibility = View.INVISIBLE
         } else {
             this.displayArticle()
         }
-
-
         // call sendNotification(titre, text) pour envoyer une notif
     }
 
 
     //method for read records from database in ListView
-    private fun displayArticle() {
-        //creating the instance of DatabaseHandler class
-        val databaseHandler: DatabaseHandler = DatabaseHandler(this)
-        //calling the viewEmployee method of DatabaseHandler class to read the records
-        val fluxs: List<Flux> = databaseHandler.viewFlux()
-        val listTitle = ArrayList<String>();
-        val listContent = ArrayList<String>();
 
-        if (fluxs.isEmpty()) {
-            return;
-        }
+    fun displayArticle() {
+        val databaseHandler = DatabaseHandler(this)
+        val fluxs: List<Flux> = databaseHandler.viewFlux()
+        if (fluxs.isEmpty()) return
 
         GlobalScope.launch(Dispatchers.Default) {
             fluxs.forEach { flux ->
-                flux.read { channel ->
-                    channel.articles.forEach { article ->
-                        if (article.title != null) {
-                            listTitle.add(article.title!!)
-                        } else
-                            listTitle.add("")
-
-                        if (article.description != null)
-                            listContent.add(article.description!!)
-                        else
-                            listContent.add("")
-                    }
-                }
+                flux.read()
             }
         }.invokeOnCompletion {
-            val arrContent = Array<String>(listContent.size) { "" }
-            var cmpt = 0
-            listContent.forEach {
-                arrContent[cmpt] = it;
-                cmpt++;
-            }
-            cmpt = 0
-            val arrTitle = Array<String>(listTitle.size) { "" }
-            listTitle.forEach {
-                arrTitle[cmpt] = it
-                Log.e("t", arrTitle[cmpt])
-                cmpt++;
-            }
-
             val intent = Intent(this@MainActivity, MainActivity::class.java);
-            intent.putExtra("Title", arrTitle)
-            intent.putExtra("Content", arrContent)
+            intent.putParcelableArrayListExtra("Flux", ArrayList(fluxs))
             startActivity(intent);
             finish()
         }
