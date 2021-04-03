@@ -20,6 +20,7 @@ class ArticleAdapter(private val context: Activity, private val title: ArrayList
 
         val idText = rowView.findViewById(R.id.article_title) as TextView
         val nameText = rowView.findViewById(R.id.article_content) as TextView
+        val dateText = rowView.findViewById(R.id.article_date) as TextView
 
         rowView.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url[position]))
@@ -28,6 +29,8 @@ class ArticleAdapter(private val context: Activity, private val title: ArrayList
 
         idText.text = title[position]
         nameText.text = content[position]
+        dateText.text = date[position]
+
         return rowView
     }
 }
