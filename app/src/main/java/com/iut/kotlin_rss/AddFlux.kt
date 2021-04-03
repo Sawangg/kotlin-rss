@@ -28,6 +28,12 @@ class AddFlux : AppCompatActivity() {
             saveRecord()
         }
 
+        val retour : TextView = findViewById(R.id.flux_add_back_button)
+        retour.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
   
     private fun saveRecord() {

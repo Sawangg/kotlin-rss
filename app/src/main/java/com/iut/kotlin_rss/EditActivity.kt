@@ -2,9 +2,8 @@ package com.iut.kotlin_rss
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
 import android.widget.ListView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.iut.kotlin_rss.adapter.ListAdapter
 import com.iut.kotlin_rss.classes.Flux
@@ -18,7 +17,7 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_flux_list)
         displayFlux()
-        val retour : Button = findViewById(R.id.button_retour)
+        val retour : TextView = findViewById(R.id.edit_flux_back)
         retour.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
