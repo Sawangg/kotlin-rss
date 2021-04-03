@@ -7,19 +7,24 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.iut.kotlin_rss.adapter.ListAdapter
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
 import kotlinx.coroutines.*
 import java.util.ArrayList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LifecycleEventObserver {
 
     private val channelID = "channel_kotlin_rss";
     private val notificationId = 101;
@@ -55,9 +60,6 @@ class MainActivity : AppCompatActivity() {
     /*
     * TODO:
     *  - Continuer le fragment FilterMenu
-    *  - Faire la zone catégorie dans la création de flux
-    *  - Faire tout le design de l'edit de flux
-    *  - Permettre l'edition de flux dans le backend
     *  - Faire le filtering dans le design et le backend
     *  - Faire l'envoi de notif maintenant que le handler est fait
     * */
@@ -75,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
-        val buttonEdit : TextView = findViewById(R.id.nav_flux_edit)
+        val buttonEdit: TextView = findViewById(R.id.nav_flux_edit)
         buttonEdit.setOnClickListener {
             val intent = Intent(this@MainActivity, EditActivity::class.java);
             startActivity(intent);
@@ -88,21 +90,21 @@ class MainActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "TAG")
         }
 
-        if(intent.getParcelableArrayListExtra<Flux>("Flux") != null) {
-            val fluxs = intent.getParcelableArrayListExtra<Flux>("Flux") !!
+        if (intent.getParcelableArrayListExtra<Flux>("Flux") != null) {
+            val fluxs = intent.getParcelableArrayListExtra<Flux>("Flux")!!
             val arrTitle = ArrayList<String>()
             val arrDesc = ArrayList<String>()
             fluxs.forEach {
                 it.formatAllArticles(arrTitle, arrDesc)
             }
             listView.adapter = ListAdapter(this, arrTitle, arrDesc)
-          
-            val tv : TextView = findViewById(R.id.no_flux)
+
+            val tv: TextView = findViewById(R.id.no_flux)
             tv.visibility = View.INVISIBLE
         } else {
             this.displayArticle()
         }
-        // call sendNotification(titre, text) pour envoyer une notif
+
     }
 
 
@@ -124,4 +126,14 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    override fun onBackPressed() {
+        return
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        Log.e("tag", event.name)
+    }
+
+
 }
