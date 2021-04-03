@@ -4,10 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
 
@@ -36,6 +33,13 @@ class EditFlux : AppCompatActivity() {
         val buttonUpdate : Button = findViewById(R.id.edit_flux_edit_button);
         buttonUpdate.setOnClickListener {
             editFlux(id!!)
+        }
+
+        val retour : TextView = findViewById(R.id.flux_edit_back_button)
+        retour.setOnClickListener {
+            val intent = Intent(this, EditActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
     }
