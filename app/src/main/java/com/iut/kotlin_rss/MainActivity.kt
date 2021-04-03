@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
@@ -15,9 +16,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.*
 import com.iut.kotlin_rss.adapter.ArticleAdapter
-import com.iut.kotlin_rss.adapter.FluxAdapter
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
+import kotlinx.android.synthetic.main.category.*
 import kotlinx.coroutines.*
 import java.util.ArrayList
 
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     private val channelID = "channel_kotlin_rss";
     private val notificationId = 101;
     lateinit var listView: ListView;
+    var fluxs : ArrayList<Flux> = ArrayList()
 
 
     private fun createNotificationChannel() {
@@ -54,12 +56,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
     }
 
-    /*
-    * TODO:
-    *  - Faire le filtering dans le design et le backend
-    *  - Favori
-    *  - Date
-    * */
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -84,28 +80,29 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
         // Fragment pour l'ouverture de filter
         val filterButton: TextView = findViewById(R.id.category_title);
+
         filterButton.setOnClickListener {
-            val dialog = FilterMenu();
+            val dialog = FilterMenu {
+                if(it.category_wrapper_group.selectedButtons.size > 0){
+                    val btn = it.category_wrapper_group.selectedButtons[0]
+                    displayArticles(btn.text)
+                }
+
+            }
             dialog.show(supportFragmentManager, "TAG")
         }
 
         if (intent.getParcelableArrayListExtra<Flux>("Flux") != null) {
-            val fluxs = intent.getParcelableArrayListExtra<Flux>("Flux")!!
-            val arrTitle = ArrayList<String>()
-            val arrDesc = ArrayList<String>()
-            fluxs.forEach {
-                it.formatAllArticles(arrTitle, arrDesc)
-            }
-            listView.adapter = ArticleAdapter(this, arrTitle, arrDesc)
-
+            fluxs = intent.getParcelableArrayListExtra("Flux")!!
+            displayArticles("")
             val tv: TextView = findViewById(R.id.no_flux)
             tv.visibility = View.INVISIBLE
         } else {
-            this.displayArticle()
+            this.loadArticles()
         }
     }
 
-    private fun displayArticle() {
+    private fun loadArticles() {
         val databaseHandler = DatabaseHandler(this)
         val fluxs: List<Flux> = databaseHandler.viewFlux()
         if (fluxs.isEmpty()) return
@@ -120,6 +117,32 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             startActivity(intent);
             finish()
         }
+    }
+
+    private fun displayArticles(category : String) {
+        val arrTitle = ArrayList<String>()
+        val arrDesc = ArrayList<String>()
+        val arrLink = ArrayList<String>()
+        val arrDate = ArrayList<String>()
+        if(category == ""){
+            fluxs.forEach {
+                it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
+            }
+        } else {
+            fluxs.forEach {
+                if(it.category == category){
+                    it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
+                }
+            }
+        }
+        if(arrTitle.isEmpty()){
+            val tv: TextView = findViewById(R.id.no_flux)
+            tv.visibility = View.VISIBLE
+        }else {
+            val tv: TextView = findViewById(R.id.no_flux)
+            tv.visibility = View.INVISIBLE
+        }
+        listView.adapter = ArticleAdapter(this, arrTitle, arrDesc, arrLink, arrDate)
     }
 
     override fun onBackPressed() {
