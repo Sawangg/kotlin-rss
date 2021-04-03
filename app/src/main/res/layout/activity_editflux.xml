@@ -81,6 +81,34 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/categor_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="375dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/category_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:gravity="center"
+            android:text="@string/category_title"
+            app:drawableEndCompat="@drawable/ic_arrow_drop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/catego"
+            layout="@layout/category"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/ll_edit_or_delete_flux"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

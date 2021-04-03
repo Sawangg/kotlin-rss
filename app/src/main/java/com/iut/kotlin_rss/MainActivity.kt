@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
@@ -76,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Fragment pour l'ouverture de filter
-        val filterButton: TextView = findViewById(R.id.nav_filter);
+        val filterButton: TextView = findViewById(R.id.category_title);
         filterButton.setOnClickListener {
             val dialog = FilterMenu();
             dialog.show(supportFragmentManager, "TAG")

@@ -1,14 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/category_wrapper"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
+    <nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
+        android:id="@+id/time"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="0dp"
+        app:alignItems="center"
+        app:flexWrap="wrap"
+        app:justifyContent="center"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:toggle_selectAnimation="fade">
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/catego_finance"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/catego_outlined_button"
+            app:toggle_backgroundColor="@android:color/transparent"
+            app:toggle_text="@string/catego_finance" />
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/catego_sport"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/catego_outlined_button"
+            app:toggle_backgroundColor="@android:color/transparent"
+            app:toggle_text="@string/catego_sport" />
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/catego_health"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/catego_outlined_button"
+            app:toggle_backgroundColor="@android:color/transparent"
+            app:toggle_text="@string/catego_health" />
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/catego_cs"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/catego_outlined_button"
+            app:toggle_backgroundColor="@android:color/transparent"
+            app:toggle_text="@string/catego_cs" />
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/catego_movie"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/catego_outlined_button"
+            app:toggle_backgroundColor="@android:color/transparent"
+            app:toggle_text="@string/catego_movie" />
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/catego_music"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/catego_outlined_button"
+            app:toggle_backgroundColor="@android:color/transparent"
+            app:toggle_text="@string/catego_music" />
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/catego_politics"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/catego_outlined_button"
+            app:toggle_backgroundColor="@android:color/transparent"
+            app:toggle_text="@string/catego_politics" />
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/catego_science"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/catego_outlined_button"
+            app:toggle_backgroundColor="@android:color/transparent"
+            app:toggle_text="@string/catego_science" />
+
+        <nl.bryanderidder.themedtogglebuttongroup.ThemedButton
+            android:id="@+id/catego_people"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/catego_outlined_button"
+            app:toggle_backgroundColor="@android:color/transparent"
+            app:toggle_text="@string/catego_people" />
+
+    </nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
