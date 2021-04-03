@@ -2,6 +2,6 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:bottom="6dp"
-        android:drawable="@drawable/transparent_outlined_gradient_bg"
+        android:drawable="@drawable/bg_button_add"
         android:top="6dp" />
 </layer-list>

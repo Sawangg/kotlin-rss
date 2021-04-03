@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
         // Fragment pour l'ouverture de filter
-        val filterButton: TextView = findViewById(R.id.nav_filter);
+        val filterButton: TextView = findViewById(R.id.category_title);
         filterButton.setOnClickListener {
             val dialog = FilterMenu();
             dialog.show(supportFragmentManager, "TAG")

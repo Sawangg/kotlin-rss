@@ -28,5 +28,18 @@
     <string name="ic_arrow_drop_desc">Icon fleche vers le bas</string>
     <string name="ic_edit_desc">Bouton d edition du flux</string>
     <string name="nav_edit_button">EDIT</string>
+
+    <string name="category_title">Category</string>
+
+    <string name="catego_finance">FINANCE</string>
+    <string name="catego_sport">SPORT</string>
+    <string name="catego_health">HEALTH</string>
+    <string name="catego_cs">COMPUTER SCIENCE</string>
+    <string name="catego_movie">MOVIE</string>
+    <string name="catego_music">MUSIC</string>
+    <string name="catego_politics">POLITICS</string>
+    <string name="catego_science">SCIENCE</string>
+    <string name="catego_people">PEOLPLE</string>
+
     <string name="retour">Back</string>
 </resources>

@@ -82,13 +82,33 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/flux_categories"
+    <LinearLayout
+        android:id="@+id/categor_root"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="364dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="375dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/category_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:gravity="center"
+            android:text="@string/category_title"
+            app:drawableEndCompat="@drawable/ic_arrow_drop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/catego"
+            layout="@layout/category"
+            android:visibility="visible" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/add_flux_add_button"
@@ -97,8 +117,8 @@
         android:layout_marginBottom="100dp"
         android:text="@string/add_flux_add_button"
         android:textSize="16sp"
-        android:background="@drawable/rounded_corner"
-        app:backgroundTint="@color/main_blue"
+        android:background="@drawable/gradient_button_category"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

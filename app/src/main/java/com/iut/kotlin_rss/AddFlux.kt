@@ -18,7 +18,6 @@ class AddFlux : AppCompatActivity() {
         setContentView(R.layout.activity_addflux)
         flux_name = findViewById(R.id.flux_name)
         flux_uri = findViewById(R.id.flux_uri)
-        flux_categories = findViewById<ListView>(R.id.flux_categories)
 
         val buttonAdd : Button = findViewById(R.id.add_flux_add_button)
         buttonAdd.setOnClickListener {
