@@ -19,7 +19,6 @@ class AddFlux : AppCompatActivity() {
         flux_name = findViewById(R.id.flux_name)
         flux_uri = findViewById(R.id.flux_uri)
         flux_categories = findViewById<ListView>(R.id.flux_categories)
-        flux_categories.adapter = MyCustomAdapter(this)
 
         val buttonAdd : Button = findViewById(R.id.add_flux_add_button)
         buttonAdd.setOnClickListener {
@@ -27,9 +26,9 @@ class AddFlux : AppCompatActivity() {
         }
     }
   
-    private fun saveRecord(){
+    private fun saveRecord() {
         val name = flux_name.text.toString()
-        val url = flux_url.text.toString()
+        val url = flux_uri.text.toString()
         val databaseHandler = DatabaseHandler(context = this)
         if(name.trim()!="" && url.trim()!="" ){
             val status = databaseHandler.addFlux(Flux(name,url,""))
