@@ -14,17 +14,14 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.*
 import com.iut.kotlin_rss.adapter.ListAdapter
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
 import kotlinx.coroutines.*
 import java.util.ArrayList
 
-class MainActivity : AppCompatActivity(), LifecycleEventObserver {
+class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private val channelID = "channel_kotlin_rss";
     private val notificationId = 101;
@@ -59,14 +56,17 @@ class MainActivity : AppCompatActivity(), LifecycleEventObserver {
 
     /*
     * TODO:
-    *  - Continuer le fragment FilterMenu
     *  - Faire le filtering dans le design et le backend
     *  - Faire l'envoi de notif maintenant que le handler est fait
+    *  - Favori
+    *  - Date
     * */
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         listView = findViewById(R.id.lv_flux)
         createNotificationChannel()
 
@@ -105,6 +105,7 @@ class MainActivity : AppCompatActivity(), LifecycleEventObserver {
             this.displayArticle()
         }
 
+
     }
 
 
@@ -131,9 +132,16 @@ class MainActivity : AppCompatActivity(), LifecycleEventObserver {
         return
     }
 
-    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        Log.e("tag", event.name)
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun onAppBackgrounded() {
+        sendNotification("Kotlin-RSS", "See you next time !")
     }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onAppForegrounded() {
+//        sendNotification("Kotlin-RSS", "See you next time !")
+    }
+
 
 
 }
