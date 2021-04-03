@@ -83,10 +83,12 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
         filterButton.setOnClickListener {
             val dialog = FilterMenu({ displayArticles("", false) }) {
+                val fav = it.filter_dof_switch.isChecked
                 if (it.category_wrapper_group.selectedButtons.size > 0) {
                     val btn = it.category_wrapper_group.selectedButtons[0]
-                    val fav = it.filter_dof_switch.isChecked
                     displayArticles(btn.text, fav)
+                }else {
+                    displayArticles("", fav)
                 }
             }
             dialog.show(supportFragmentManager, "TAG")
