@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
-        android:id="@+id/time"
+        android:id="@+id/category_wrapper_group"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

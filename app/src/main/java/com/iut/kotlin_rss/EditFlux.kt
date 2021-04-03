@@ -5,14 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
+import androidx.core.view.forEach
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
+import nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
 
 class EditFlux : AppCompatActivity() {
 
     lateinit var fluxName : EditText
     lateinit var fluxUrl : EditText
-    lateinit var flux_categories : ListView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +22,17 @@ class EditFlux : AppCompatActivity() {
         val name = intent.getStringExtra("FluxName")
         val url = intent.getStringExtra("FluxUrl")
         val category = intent.getStringExtra("FluxCategory")
+        val themedButtonGroup = findViewById<ThemedToggleButtonGroup>(R.id.category_wrapper_group)
+        themedButtonGroup.buttons.forEach {
+            if(it.text == category){
+                themedButtonGroup.selectButton(it.id)
+            }
+        }
         fluxName = findViewById(R.id.flux_name)
         fluxUrl = findViewById(R.id.flux_uri)
         fluxName.setText(name)
         fluxUrl.setText(url)
+
         val buttonDelete : Button = findViewById(R.id.delete_flux_delete_button)
         buttonDelete.setOnClickListener {
             deleteFlux(id!!)
@@ -53,11 +61,13 @@ class EditFlux : AppCompatActivity() {
     }
 
     private fun editFlux(id : String) {
+        val themedButtonGroup = findViewById<ThemedToggleButtonGroup>(R.id.category_wrapper_group)
         val name = fluxName.text.toString()
         val url = fluxUrl.text.toString()
+        val category = themedButtonGroup.selectedButtons[0].text
         val databaseHandler = DatabaseHandler(this)
         if(name.trim()!="" && url.trim()!="" ){
-            val flux = Flux(name,url,"");
+            val flux = Flux(name,url,category);
             flux.id = id.toInt()
             val status = databaseHandler.updateFlux(flux)
             if(status > -1){
@@ -72,6 +82,9 @@ class EditFlux : AppCompatActivity() {
         }
     }
 
-
-
+    override fun onBackPressed() {
+        val intent = Intent(this@EditFlux, EditActivity::class.java);
+        startActivity(intent)
+        finish()
+    }
 }

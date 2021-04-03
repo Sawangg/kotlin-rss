@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.iut.kotlin_rss.adapter.ListAdapter
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
+import nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
 import java.util.ArrayList
 
 class EditActivity : AppCompatActivity() {
@@ -48,5 +49,10 @@ class EditActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+    override fun onBackPressed() {
+        val intent = Intent(this@EditActivity, MainActivity::class.java);
+        startActivity(intent)
+        finish()
     }
 }
