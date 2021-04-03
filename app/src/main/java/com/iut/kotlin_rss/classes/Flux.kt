@@ -1,7 +1,9 @@
 package com.iut.kotlin_rss.classes
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
 import com.prof.rssparser.Channel
 import com.prof.rssparser.Parser
 import java.io.Serializable
@@ -10,8 +12,10 @@ import java.nio.charset.Charset
 
 class Flux(var name : String?, var url : String?, var category : String?) : Parcelable{
     var id = 0
-    var channel : Channel = Channel();
+    var channel : Channel = Channel()
+    var fav : Boolean = false
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
@@ -19,6 +23,7 @@ class Flux(var name : String?, var url : String?, var category : String?) : Parc
     ) {
         id = parcel.readInt()
         channel = parcel.readSerializable() as Channel
+        fav = parcel.readBoolean()
     }
 
 
@@ -35,22 +40,30 @@ class Flux(var name : String?, var url : String?, var category : String?) : Parc
         }
     }
 
-    fun formatAllArticles(listTitle : ArrayList<String>, listDescription : ArrayList<String> ){
+    fun formatAllArticles(listTitle : ArrayList<String>, listDescription : ArrayList<String>, listLink : ArrayList<String>, listDate : ArrayList<String>  ){
         this.channel.articles.forEach {
-            if (it.title != null && it.description != null){
+            if (it.title != null && it.description != null && it.link != null){
                 listTitle.add(it.title!!)
                 listDescription.add(it.description!!)
+                listLink.add(it.link!!)
+                if(it.pubDate != null){
+                    listDate.add(it.pubDate!!)
+                }else {
+                    listDate.add("")
+                }
             }
         }
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeString(url)
         parcel.writeString(category)
         parcel.writeInt(id)
         parcel.writeSerializable(channel)
+        parcel.writeBoolean(fav)
     }
 
     override fun describeContents(): Int {
@@ -58,6 +71,7 @@ class Flux(var name : String?, var url : String?, var category : String?) : Parc
     }
 
     companion object CREATOR : Parcelable.Creator<Flux> {
+        @RequiresApi(Build.VERSION_CODES.Q)
         override fun createFromParcel(parcel: Parcel): Flux {
             return Flux(parcel)
         }
