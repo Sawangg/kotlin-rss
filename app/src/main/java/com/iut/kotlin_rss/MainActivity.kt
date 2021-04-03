@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.iut.kotlin_rss.adapter.ArticleAdapter
@@ -52,11 +53,8 @@ class MainActivity : AppCompatActivity() {
 
     /*
     * TODO:
-    *  - Connecter à une bd
-    *  - Finir la listeview en créant l'adaptateur et finissant la classe flux
     *  - Continuer le fragment FilterMenu
     *  - Faire la zone catégorie dans la création de flux
-    *  - Permettre l'ajout d'un flux dans le backend
     *  - Faire tout le design de l'edit de flux
     *  - Permettre l'edition de flux dans le backend
     *  - Faire le filtering dans le design et le backend
@@ -77,11 +75,18 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent);
         }
 
+        // Fragment pour l'ouverture de filter
+        val filterButton: TextView = findViewById(R.id.nav_filter);
+        filterButton.setOnClickListener {
+            val dialog = FilterMenu();
+            dialog.show(supportFragmentManager, "TAG")
+        }
+
         if(intent.getStringArrayExtra("Title") != null  && intent.getStringArrayExtra("Content") != null){
             var arrTitle = intent.getStringArrayExtra("Title")!!
             var arrContent = intent.getStringArrayExtra("Content")!!
             listView.adapter = ArticleAdapter(this, arrTitle, arrContent)
-        }else {
+        } else {
             this.displayArticle()
         }
 
@@ -91,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 
 
     //method for read records from database in ListView
-    fun displayArticle() {
+    public fun displayArticle() {
         //creating the instance of DatabaseHandler class
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
         //calling the viewEmployee method of DatabaseHandler class to read the records
