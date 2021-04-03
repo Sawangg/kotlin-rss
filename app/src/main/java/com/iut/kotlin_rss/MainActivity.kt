@@ -13,7 +13,7 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.iut.kotlin_rss.adapter.ArticleAdapter
+import com.iut.kotlin_rss.adapter.ListAdapter
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
 import kotlinx.coroutines.*
@@ -72,8 +72,15 @@ class MainActivity : AppCompatActivity() {
         buttonAdd.setOnClickListener {
             val intent = Intent(this@MainActivity, AddFlux::class.java);
             startActivity(intent);
+            finish()
         }
 
+        val buttonEdit : TextView = findViewById(R.id.nav_flux_edit)
+        buttonEdit.setOnClickListener {
+            val intent = Intent(this@MainActivity, EditActivity::class.java);
+            startActivity(intent);
+            finish()
+        }
         // Fragment pour l'ouverture de filter
         val filterButton: TextView = findViewById(R.id.category_title);
         filterButton.setOnClickListener {
@@ -88,7 +95,7 @@ class MainActivity : AppCompatActivity() {
             fluxs.forEach {
                 it.formatAllArticles(arrTitle, arrDesc)
             }
-            listView.adapter = ArticleAdapter(this, arrTitle, arrDesc)
+            listView.adapter = ListAdapter(this, arrTitle, arrDesc)
           
             val tv : TextView = findViewById(R.id.no_flux)
             tv.visibility = View.INVISIBLE

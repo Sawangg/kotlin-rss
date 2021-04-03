@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".AddFlux" />
         <activity android:name=".EditFlux" />
+        <activity android:name=".EditActivity" />
 
     </application>
 
