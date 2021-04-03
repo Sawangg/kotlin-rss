@@ -10,4 +10,5 @@
     <color name="main_blue">#357DED</color>
     <color name="grey_catego">#CCCCCC</color>
     <color name="grey_back">#5F5F5F</color>
+    <item name="pink_500" type="color">#e91e63</item>
 </resources>

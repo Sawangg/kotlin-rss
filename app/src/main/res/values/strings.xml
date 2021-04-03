@@ -2,6 +2,7 @@
     <string name="app_name">kotlin-rss</string>
 
     <string name="no_flux">Please add a RSS flux</string>
+    <string name="no_result">No result.</string>
 
     <string name="add_flux_title">Flux creation</string>
     <string name="edit_flux_title">Flux edit</string>
@@ -17,7 +18,7 @@
     <string name="filter_menu_title">Filtering</string>
     <string name="filter_reset_button">RESET</string>
     <string name="filter_filter_button">FILTER</string>
-    <string name="filter_dor">Display only results</string>
+    <string name="filter_dof">Display only favorites</string>
 
     <string name="default_edit_title">Le Monde</string>
     <string name="default_edit_uri">https://www.lemonde.fr/rss/une.xml</string>

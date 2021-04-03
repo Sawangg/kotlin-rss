@@ -37,6 +37,19 @@
             android:layout_marginStart="50dp"
             android:text="@string/edit_flux_title"
             android:textSize="30sp" />
+
+        <ToggleButton
+            android:id="@+id/edit_favorite"
+            android:layout_marginStart="105dp"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:background="@drawable/button_favorite"
+            android:checked="false"
+            android:layout_gravity="center"
+            android:text=""
+            android:textOff=""
+            android:textOn="" />
+
     </LinearLayout>
 
     <LinearLayout

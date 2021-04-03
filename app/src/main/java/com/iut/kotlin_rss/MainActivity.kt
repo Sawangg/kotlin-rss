@@ -15,7 +15,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.*
 import com.iut.kotlin_rss.adapter.ArticleAdapter
-import com.iut.kotlin_rss.adapter.FluxAdapter
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
 import kotlinx.coroutines.*
@@ -97,7 +96,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
                 it.formatAllArticles(arrTitle, arrDesc)
             }
             listView.adapter = ArticleAdapter(this, arrTitle, arrDesc)
-
             val tv: TextView = findViewById(R.id.no_flux)
             tv.visibility = View.INVISIBLE
         } else {
@@ -108,7 +106,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     private fun displayArticle() {
         val databaseHandler = DatabaseHandler(this)
         val fluxs: List<Flux> = databaseHandler.viewFlux()
-        if (fluxs.isEmpty()) return
+        if (fluxs.isEmpty()) return;
 
         GlobalScope.launch(Dispatchers.Default) {
             fluxs.forEach { flux ->
@@ -123,7 +121,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     }
 
     override fun onBackPressed() {
-        return
+        return;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
