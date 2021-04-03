@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
+import android.util.Log
+import android.widget.Toast
 import com.iut.kotlin_rss.classes.Flux
 import kotlinx.coroutines.*
 import kotlin.system.*
@@ -15,7 +17,7 @@ class DatabaseHandler(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
         private val DATABASE_VERSION = 1
-        private val DATABASE_NAME = "FluxDatabase"
+        private val DATABASE_NAME = "FluxDB"
         private val TABLE_CONTACTS = "Flux"
         private val FLUX_ID = "id"
         private val KEY_URL = "url"
@@ -45,6 +47,7 @@ class DatabaseHandler(context: Context) :
         val success = db.insert(TABLE_CONTACTS, null, contentValues)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
+
         return success
     }
 
@@ -61,14 +64,14 @@ class DatabaseHandler(context: Context) :
         }
         var fluxId: Int
         var fluxUrl: String
-        var fluxCategory : String
-        var fluxName : String
+        var fluxCategory: String
+        var fluxName: String
         if (cursor.moveToFirst()) {
             do {
-                fluxName = cursor.getColumnIndex(FLUX_NAME).toString()
-                fluxId = cursor.getColumnIndex(FLUX_ID)
-                fluxUrl = cursor.getColumnIndex(KEY_URL).toString()
-                fluxCategory = cursor.getColumnIndex(KEY_CATEGORY).toString()
+                fluxId =  cursor.getInt( cursor.getColumnIndex(FLUX_ID))
+                fluxName = cursor.getString(cursor.getColumnIndex(FLUX_NAME))
+                fluxUrl = cursor.getString(cursor.getColumnIndex(KEY_URL))
+                fluxCategory = cursor.getString(cursor.getColumnIndex(KEY_CATEGORY))
                 val flux = Flux(fluxName, fluxUrl, fluxCategory)
                 flux.id = fluxId
                 listFlux.add(flux)
@@ -84,7 +87,7 @@ class DatabaseHandler(context: Context) :
         val contentValues = ContentValues()
 
         // Updating Row
-        val success = db.update(TABLE_CONTACTS, contentValues, KEY_URL+"=" + flux.url, null)
+        val success = db.update(TABLE_CONTACTS, contentValues, KEY_URL + "=" + flux.url, null)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success
@@ -94,7 +97,7 @@ class DatabaseHandler(context: Context) :
     fun deleteFlux(flux: Flux): Int {
         val db = this.writableDatabase
         // Deleting Row
-        val success = db.delete(TABLE_CONTACTS, KEY_URL+"=" + flux.url, null)
+        val success = db.delete(TABLE_CONTACTS, KEY_URL + "=" + flux.url, null)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success

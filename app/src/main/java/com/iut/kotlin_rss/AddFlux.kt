@@ -22,13 +22,12 @@ class AddFlux : AppCompatActivity() {
         buttonAdd.setOnClickListener {
             saveRecord()
         }
-
     }
 
     fun saveRecord(){
         val name = flux_name.text.toString()
         val url = flux_url.text.toString()
-        val databaseHandler: DatabaseHandler = DatabaseHandler(context = this)
+        val databaseHandler = DatabaseHandler(context = this)
         if(name.trim()!="" && url.trim()!="" ){
             val status = databaseHandler.addFlux(Flux(name,url,""))
             if(status > -1){

@@ -10,12 +10,16 @@ class Flux(var name : String, var url : String, var category : String) {
     var id = 0
 
 
-    suspend fun read(function: () -> Unit) {
+    suspend fun read(function: (Channel) -> Unit) {
         val parser = Parser.Builder()
             .charset(Charset.forName("ISO-8859-7"))
             .build();
         try {
-            this.channel = parser.getChannel(url)
+            parser.getChannel(url).run {
+                channel = this
+                function(channel)
+
+            }
         }catch (e : Exception){
             e.printStackTrace();
         }
