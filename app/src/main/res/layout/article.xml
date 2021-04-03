@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/article_card"
         android:layout_width="match_parent"
-        android:layout_height="125dp"
+        android:layout_height="133dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
@@ -45,7 +45,7 @@
             <TextView
                 android:id="@+id/article_content"
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
+                android:layout_height="50dp"
                 android:justificationMode="inter_word"
                 android:text="Description de l'article"
                 android:textColor="@color/black" />
@@ -54,7 +54,6 @@
                 android:id="@+id/article_date"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_weight="1"
                 android:justificationMode="inter_word"
                 android:text="Date de l'article"
                 android:textColor="@color/grey_catego" />
