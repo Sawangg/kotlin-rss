@@ -37,6 +37,7 @@ class AddFlux : AppCompatActivity() {
                 flux_uri.text.clear()
                 val intent = Intent(this@AddFlux, MainActivity::class.java);
                 startActivity(intent)
+                finish()
             }
         } else {
             Toast.makeText(applicationContext,"Error", Toast.LENGTH_LONG).show()
