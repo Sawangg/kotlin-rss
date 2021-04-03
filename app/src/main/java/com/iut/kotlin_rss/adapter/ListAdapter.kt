@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.iut.kotlin_rss.R
 import java.util.ArrayList
 
-class ArticleAdapter(private val context: Activity, private val title: ArrayList<String>, private val content: ArrayList<String>) : ArrayAdapter<String>(context, R.layout.article, content) {
+class ListAdapter(private val context: Activity, private val title: ArrayList<String>, private val content: ArrayList<String>) : ArrayAdapter<String>(context, R.layout.article, content) {
 
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
 

@@ -6,11 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
-import android.util.Log
-import android.widget.Toast
 import com.iut.kotlin_rss.classes.Flux
-import kotlinx.coroutines.*
-import kotlin.system.*
 
 //creating the database logic, extending the SQLiteOpenHelper base class
 class DatabaseHandler(context: Context) :
@@ -19,14 +15,14 @@ class DatabaseHandler(context: Context) :
         private val DATABASE_VERSION = 1
         private val DATABASE_NAME = "FluxDB"
         private val TABLE_CONTACTS = "Flux"
-        private val FLUX_ID = "id"
+        private val KEY_ID = "id"
         private val KEY_URL = "url"
         private val KEY_CATEGORY = "category"
         private val FLUX_NAME = "name"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("CREATE TABLE $TABLE_CONTACTS ( $FLUX_ID INTEGER PRIMARY KEY AUTOINCREMENT,$FLUX_NAME TEXT, $KEY_URL TEXT, $KEY_CATEGORY TEXT)")
+        db?.execSQL("CREATE TABLE $TABLE_CONTACTS ( $KEY_ID INTEGER PRIMARY KEY AUTOINCREMENT,$FLUX_NAME TEXT, $KEY_URL TEXT, $KEY_CATEGORY TEXT)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -68,7 +64,7 @@ class DatabaseHandler(context: Context) :
         var fluxName: String
         if (cursor.moveToFirst()) {
             do {
-                fluxId =  cursor.getInt( cursor.getColumnIndex(FLUX_ID))
+                fluxId =  cursor.getInt( cursor.getColumnIndex(KEY_ID))
                 fluxName = cursor.getString(cursor.getColumnIndex(FLUX_NAME))
                 fluxUrl = cursor.getString(cursor.getColumnIndex(KEY_URL))
                 fluxCategory = cursor.getString(cursor.getColumnIndex(KEY_CATEGORY))
@@ -94,10 +90,10 @@ class DatabaseHandler(context: Context) :
     }
 
     //method to delete data
-    fun deleteFlux(flux: Flux): Int {
+    fun deleteFlux(id: String): Int {
         val db = this.writableDatabase
         // Deleting Row
-        val success = db.delete(TABLE_CONTACTS, KEY_URL + "=" + flux.url, null)
+        val success = db.delete(TABLE_CONTACTS, "$KEY_ID=$id", null)
         //2nd argument is String containing nullColumnHack
         db.close() // Closing database connection
         return success
