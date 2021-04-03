@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
@@ -24,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private val channelID = "channel_kotlin_rss";
     private val notificationId = 101;
     lateinit var listView: ListView;
+
 
     private fun createNotificationChannel() {
 
@@ -82,71 +82,34 @@ class MainActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "TAG")
         }
 
-        if(intent.getStringArrayExtra("Title") != null  && intent.getStringArrayExtra("Content") != null){
-            var arrTitle = intent.getStringArrayExtra("Title")!!
-            var arrContent = intent.getStringArrayExtra("Content")!!
-            listView.adapter = ArticleAdapter(this, arrTitle, arrContent)
+        if(intent.getParcelableArrayListExtra<Flux>("Flux") != null){
+            val fluxs = intent.getParcelableArrayListExtra<Flux>("Flux") !!
+            val arrTitle = ArrayList<String>()
+            val arrDesc = ArrayList<String>()
+            fluxs.forEach {
+                it.formatAllArticles(arrTitle, arrDesc)
+            }
+            listView.adapter = ArticleAdapter(this, arrTitle, arrDesc )
         } else {
             this.displayArticle()
         }
-
-
         // call sendNotification(titre, text) pour envoyer une notif
     }
 
 
     //method for read records from database in ListView
-    public fun displayArticle() {
-        //creating the instance of DatabaseHandler class
-        val databaseHandler: DatabaseHandler = DatabaseHandler(this)
-        //calling the viewEmployee method of DatabaseHandler class to read the records
+    fun displayArticle() {
+        val databaseHandler = DatabaseHandler(this)
         val fluxs: List<Flux> = databaseHandler.viewFlux()
-        val listTitle = ArrayList<String>();
-        val listContent = ArrayList<String>();
-        val ctx = this;
-
-        if (fluxs.isEmpty()){
-
-            return;
-        }
+        if (fluxs.isEmpty()) return
 
         GlobalScope.launch(Dispatchers.Default) {
             fluxs.forEach { flux ->
-                flux.read { channel ->
-//                    Log.e("tag", channel.articles.size.toString())
-                    channel.articles.forEach { article ->
-                        if (article.title != null) {
-                            listTitle.add(article.title!!)
-//                            Log.e("tag", article.title.toString())
-                        } else
-                            listTitle.add("")
-
-                        if (article.content != null)
-                            listContent.add(article.content!!)
-                        else
-                            listContent.add("")
-                    }
-                }
+                flux.read()
             }
         }.invokeOnCompletion {
-            Log.e("tag", listContent.size.toString())
-            val arrContent = Array<String>(listContent.size) { "" }
-            var cmpt = 0
-            listContent.forEach {
-                arrContent[cmpt] = it;
-                cmpt++;
-            }
-            cmpt = 0
-            val arrTitle = Array<String>(listTitle.size) { "" }
-            listTitle.forEach {
-                arrTitle[cmpt] = it
-                Log.e("t", arrTitle[cmpt])
-                cmpt++;
-            }
-
             val intent = Intent(this@MainActivity, MainActivity::class.java);
-            intent.putExtra("Title", arrTitle)
-            intent.putExtra("Content", arrContent)
+            intent.putParcelableArrayListExtra("Flux", ArrayList(fluxs))
             startActivity(intent);
             finish()
         }
