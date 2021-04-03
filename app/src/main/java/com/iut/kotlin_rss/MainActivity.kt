@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
@@ -15,7 +14,8 @@ import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.*
-import com.iut.kotlin_rss.adapter.ListAdapter
+import com.iut.kotlin_rss.adapter.ArticleAdapter
+import com.iut.kotlin_rss.adapter.FluxAdapter
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
 import kotlinx.coroutines.*
@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     /*
     * TODO:
     *  - Faire le filtering dans le design et le backend
-    *  - Faire l'envoi de notif maintenant que le handler est fait
     *  - Favori
     *  - Date
     * */
@@ -97,21 +96,16 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             fluxs.forEach {
                 it.formatAllArticles(arrTitle, arrDesc)
             }
-            listView.adapter = ListAdapter(this, arrTitle, arrDesc)
+            listView.adapter = ArticleAdapter(this, arrTitle, arrDesc)
 
             val tv: TextView = findViewById(R.id.no_flux)
             tv.visibility = View.INVISIBLE
         } else {
             this.displayArticle()
         }
-
-
     }
 
-
-    //method for read records from database in ListView
-
-    fun displayArticle() {
+    private fun displayArticle() {
         val databaseHandler = DatabaseHandler(this)
         val fluxs: List<Flux> = databaseHandler.viewFlux()
         if (fluxs.isEmpty()) return
@@ -141,7 +135,4 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     fun onAppForegrounded() {
 //        sendNotification("Kotlin-RSS", "See you next time !")
     }
-
-
-
 }

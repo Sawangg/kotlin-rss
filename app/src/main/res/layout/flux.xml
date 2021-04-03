@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/article_root"
+    android:id="@+id/flux_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/article_card"
+        android:id="@+id/flux_card"
         android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_height="53dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
@@ -19,36 +19,34 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/article_wrapper"
+            android:id="@+id/flux_wrapper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="7dp"
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/article_card_header_wrapper"
+                android:id="@+id/flux_card_header_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/article_title"
+                    android:id="@+id/flux_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Titre article"
+                    android:text="Nom du flux"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
-
-
             </LinearLayout>
 
             <TextView
-                android:id="@+id/article_content"
+                android:id="@+id/flux_content"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="25dp"
                 android:justificationMode="inter_word"
-                android:text="Description de l'article"
-                android:textColor="@color/black" />
+                android:text="URI du flux"
+                android:textColor="@color/main_blue" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
