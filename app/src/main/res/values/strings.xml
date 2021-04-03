@@ -22,5 +22,5 @@
     <string name="ic_add_desc">Bouton d ajout de flux</string>
     <string name="ic_arrow_drop_desc">Icon fleche vers le bas</string>
     <string name="ic_edit_desc">Bouton d edition du flux</string>
-
+    <string name="nav_edit_button">EDIT</string>
 </resources>

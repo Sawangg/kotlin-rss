@@ -8,6 +8,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
@@ -83,9 +84,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         if(intent.getStringArrayExtra("Title") != null  && intent.getStringArrayExtra("Content") != null){
-            var arrTitle = intent.getStringArrayExtra("Title")!!
-            var arrContent = intent.getStringArrayExtra("Content")!!
+            val arrTitle = intent.getStringArrayExtra("Title")!!
+            val arrContent = intent.getStringArrayExtra("Content")!!
             listView.adapter = ArticleAdapter(this, arrTitle, arrContent)
+
+            val tv : TextView = findViewById(R.id.no_flux)
+            tv.visibility = View.INVISIBLE
         } else {
             this.displayArticle()
         }
@@ -96,40 +100,35 @@ class MainActivity : AppCompatActivity() {
 
 
     //method for read records from database in ListView
-    public fun displayArticle() {
+    private fun displayArticle() {
         //creating the instance of DatabaseHandler class
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
         //calling the viewEmployee method of DatabaseHandler class to read the records
         val fluxs: List<Flux> = databaseHandler.viewFlux()
         val listTitle = ArrayList<String>();
         val listContent = ArrayList<String>();
-        val ctx = this;
 
-        if (fluxs.isEmpty()){
-
+        if (fluxs.isEmpty()) {
             return;
         }
 
         GlobalScope.launch(Dispatchers.Default) {
             fluxs.forEach { flux ->
                 flux.read { channel ->
-//                    Log.e("tag", channel.articles.size.toString())
                     channel.articles.forEach { article ->
                         if (article.title != null) {
                             listTitle.add(article.title!!)
-//                            Log.e("tag", article.title.toString())
                         } else
                             listTitle.add("")
 
-                        if (article.content != null)
-                            listContent.add(article.content!!)
+                        if (article.description != null)
+                            listContent.add(article.description!!)
                         else
                             listContent.add("")
                     }
                 }
             }
         }.invokeOnCompletion {
-            Log.e("tag", listContent.size.toString())
             val arrContent = Array<String>(listContent.size) { "" }
             var cmpt = 0
             listContent.forEach {

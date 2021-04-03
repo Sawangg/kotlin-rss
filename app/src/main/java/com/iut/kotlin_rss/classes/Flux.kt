@@ -12,7 +12,7 @@ class Flux(var name : String, var url : String, var category : String) {
 
     suspend fun read(function: (Channel) -> Unit) {
         val parser = Parser.Builder()
-            .charset(Charset.forName("ISO-8859-7"))
+            .charset(Charset.forName("UTF-8"))
             .build();
         try {
             parser.getChannel(url).run {
