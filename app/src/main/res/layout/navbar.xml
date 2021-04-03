@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -26,10 +25,26 @@
             app:drawableEndCompat="@drawable/ic_arrow_drop" />
 
         <Space
-            android:id="@+id/navbar_divider"
+            android:id="@+id/nav_bar_divider"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/nav_flux_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_button"
+            android:text="@string/nav_edit_button"
+            android:textColor="@color/black"
+            app:backgroundTint="@null"
+            app:drawableEndCompat="@drawable/ic_edit"/>
+
+        <Space
+            android:id="@+id/nav_bar_divider_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/add_button_wrapper"

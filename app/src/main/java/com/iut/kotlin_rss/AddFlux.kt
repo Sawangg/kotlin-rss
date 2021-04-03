@@ -24,22 +24,20 @@ class AddFlux : AppCompatActivity() {
         }
     }
 
-    fun saveRecord(){
+    private fun saveRecord(){
         val name = flux_name.text.toString()
         val url = flux_url.text.toString()
         val databaseHandler = DatabaseHandler(context = this)
         if(name.trim()!="" && url.trim()!="" ){
             val status = databaseHandler.addFlux(Flux(name,url,""))
             if(status > -1){
-                Toast.makeText(applicationContext,"record save", Toast.LENGTH_LONG).show()
                 flux_name.text.clear()
                 flux_url.text.clear()
                 val intent = Intent(this@AddFlux, MainActivity::class.java);
                 startActivity(intent);
             }
-        }else{
+        } else {
             Toast.makeText(applicationContext,"Error", Toast.LENGTH_LONG).show()
         }
-
     }
 }

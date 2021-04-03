@@ -7,6 +7,8 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
@@ -58,9 +60,7 @@ class MainActivity : AppCompatActivity() {
     *  - Faire tout le design de l'edit de flux
     *  - Permettre l'edition de flux dans le backend
     *  - Faire le filtering dans le design et le backend
-    *  - Checker si il y a au moins un flux et afficher le message @string/no_flux sinon
     *  - Faire l'envoi de notif maintenant que le handler est fait
-    *  - En gros faire des trucs qui marche mnt qu'il y a un début de design
     * */
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -82,14 +82,17 @@ class MainActivity : AppCompatActivity() {
             dialog.show(supportFragmentManager, "TAG")
         }
 
-        if(intent.getParcelableArrayListExtra<Flux>("Flux") != null){
+        if(intent.getParcelableArrayListExtra<Flux>("Flux") != null) {
             val fluxs = intent.getParcelableArrayListExtra<Flux>("Flux") !!
             val arrTitle = ArrayList<String>()
             val arrDesc = ArrayList<String>()
             fluxs.forEach {
                 it.formatAllArticles(arrTitle, arrDesc)
             }
-            listView.adapter = ArticleAdapter(this, arrTitle, arrDesc )
+            listView.adapter = ArticleAdapter(this, arrTitle, arrDesc)
+          
+            val tv : TextView = findViewById(R.id.no_flux)
+            tv.visibility = View.INVISIBLE
         } else {
             this.displayArticle()
         }
@@ -98,6 +101,7 @@ class MainActivity : AppCompatActivity() {
 
 
     //method for read records from database in ListView
+
     fun displayArticle() {
         val databaseHandler = DatabaseHandler(this)
         val fluxs: List<Flux> = databaseHandler.viewFlux()
