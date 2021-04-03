@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.widget.ImageView
 import android.widget.ListView
 import androidx.core.app.NotificationCompat
@@ -15,8 +15,8 @@ import androidx.core.app.NotificationManagerCompat
 import com.iut.kotlin_rss.adapter.ArticleAdapter
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
+import kotlinx.coroutines.*
 import java.util.ArrayList
-import kotlin.coroutines.startCoroutine
 
 class MainActivity : AppCompatActivity() {
 
@@ -77,25 +77,43 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent);
         }
 
+        if(intent.getStringArrayExtra("Title") != null  && intent.getStringArrayExtra("Content") != null){
+            var arrTitle = intent.getStringArrayExtra("Title")!!
+            var arrContent = intent.getStringArrayExtra("Content")!!
+            listView.adapter = ArticleAdapter(this, arrTitle, arrContent)
+        }else {
+            this.displayArticle()
+        }
+
+
         // call sendNotification(titre, text) pour envoyer une notif
     }
 
 
     //method for read records from database in ListView
-    fun displayArticle(view: View) {
+    fun displayArticle() {
         //creating the instance of DatabaseHandler class
         val databaseHandler: DatabaseHandler = DatabaseHandler(this)
         //calling the viewEmployee method of DatabaseHandler class to read the records
         val fluxs: List<Flux> = databaseHandler.viewFlux()
         val listTitle = ArrayList<String>();
         val listContent = ArrayList<String>();
-        suspend {
+        val ctx = this;
+
+        if (fluxs.isEmpty()){
+
+            return;
+        }
+
+        GlobalScope.launch(Dispatchers.Default) {
             fluxs.forEach { flux ->
-                flux.read {
-                    flux.channel.articles.forEach { article ->
-                        if (article.title != null)
+                flux.read { channel ->
+//                    Log.e("tag", channel.articles.size.toString())
+                    channel.articles.forEach { article ->
+                        if (article.title != null) {
                             listTitle.add(article.title!!)
-                        else
+//                            Log.e("tag", article.title.toString())
+                        } else
                             listTitle.add("")
 
                         if (article.content != null)
@@ -103,12 +121,29 @@ class MainActivity : AppCompatActivity() {
                         else
                             listContent.add("")
                     }
-                    listContent.forEach {
-                        print(it)
-                    }
                 }
             }
-        }
+        }.invokeOnCompletion {
+            Log.e("tag", listContent.size.toString())
+            val arrContent = Array<String>(listContent.size) { "" }
+            var cmpt = 0
+            listContent.forEach {
+                arrContent[cmpt] = it;
+                cmpt++;
+            }
+            cmpt = 0
+            val arrTitle = Array<String>(listTitle.size) { "" }
+            listTitle.forEach {
+                arrTitle[cmpt] = it
+                Log.e("t", arrTitle[cmpt])
+                cmpt++;
+            }
 
+            val intent = Intent(this@MainActivity, MainActivity::class.java);
+            intent.putExtra("Title", arrTitle)
+            intent.putExtra("Content", arrContent)
+            startActivity(intent);
+            finish()
+        }
     }
 }
