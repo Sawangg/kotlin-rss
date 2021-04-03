@@ -38,7 +38,8 @@ class DatabaseHandler(context: Context) :
         val contentValues = ContentValues()
         contentValues.put(KEY_URL, flux.url)
         contentValues.put(KEY_CATEGORY, flux.category)
-        contentValues.put(KEY_FAV, flux.name)
+        contentValues.put(KEY_NAME, flux.name)
+        contentValues.put(KEY_FAV, flux.fav)
 
         // Inserting Row
         val success = db.insert(TABLE_CONTACTS, null, contentValues)

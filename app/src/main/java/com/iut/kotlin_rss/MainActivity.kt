@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ListView
@@ -19,6 +18,7 @@ import com.iut.kotlin_rss.adapter.ArticleAdapter
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
 import kotlinx.android.synthetic.main.category.*
+import kotlinx.android.synthetic.main.filtermenu.*
 import kotlinx.coroutines.*
 import java.util.ArrayList
 
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     private val channelID = "channel_kotlin_rss";
     private val notificationId = 101;
     lateinit var listView: ListView;
-    var fluxs : ArrayList<Flux> = ArrayList()
+    var fluxs: ArrayList<Flux> = ArrayList()
 
 
     private fun createNotificationChannel() {
@@ -82,19 +82,19 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         val filterButton: TextView = findViewById(R.id.category_title);
 
         filterButton.setOnClickListener {
-            val dialog = FilterMenu {
-                if(it.category_wrapper_group.selectedButtons.size > 0){
+            val dialog = FilterMenu({ displayArticles("", false) }) {
+                if (it.category_wrapper_group.selectedButtons.size > 0) {
                     val btn = it.category_wrapper_group.selectedButtons[0]
-                    displayArticles(btn.text)
+                    val fav = it.filter_dof_switch.isChecked
+                    displayArticles(btn.text, fav)
                 }
-
             }
             dialog.show(supportFragmentManager, "TAG")
         }
 
         if (intent.getParcelableArrayListExtra<Flux>("Flux") != null) {
             fluxs = intent.getParcelableArrayListExtra("Flux")!!
-            displayArticles("")
+            displayArticles("", false)
             val tv: TextView = findViewById(R.id.no_flux)
             tv.visibility = View.INVISIBLE
         } else {
@@ -119,27 +119,40 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
     }
 
-    private fun displayArticles(category : String) {
+    private fun displayArticles(category: String, fav: Boolean) {
         val arrTitle = ArrayList<String>()
         val arrDesc = ArrayList<String>()
         val arrLink = ArrayList<String>()
         val arrDate = ArrayList<String>()
-        if(category == ""){
+        if (category == "") {
             fluxs.forEach {
-                it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
+                if (fav) {
+                    if (it.fav) {
+                        it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
+                    }
+                } else {
+                    it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
+                }
+
             }
         } else {
             fluxs.forEach {
-                if(it.category == category){
-                    it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
+                if (it.category == category) {
+                    if (fav) {
+                        if (it.fav) {
+                            it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
+                        }
+                    } else {
+                        it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
+                    }
                 }
             }
         }
-        if(arrTitle.isEmpty()) {
-            val tv: TextView = findViewById(R.id.no_flux)
+        if (arrTitle.isEmpty()) {
+            val tv: TextView = findViewById(R.id.no_result)
             tv.visibility = View.VISIBLE
         } else {
-            val tv: TextView = findViewById(R.id.no_flux)
+            val tv: TextView = findViewById(R.id.no_result)
             tv.visibility = View.INVISIBLE
         }
         listView.adapter = ArticleAdapter(this, arrTitle, arrDesc, arrLink, arrDate)
