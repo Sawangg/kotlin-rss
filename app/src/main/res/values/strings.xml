@@ -10,6 +10,13 @@
     <string name="add_flux_uri_caption">URI</string>
     <string name="add_flux_add_button">ADD</string>
 
+
+    <string name="filter_menu_title">Filtering</string>
+    <string name="filter_reset_button">RESET</string>
+    <string name="filter_filter_button">FILTER</string>
+    <string name="filter_dor">Display only results</string>
+
+
     <string name="nav_filter_text">FILTER</string>
     <string name="logo_desc">Le logo de notre application</string>
     <string name="ic_add_desc">Bouton d ajout de flux</string>
