@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.iut.kotlin_rss.adapter.ListAdapter
+import com.iut.kotlin_rss.adapter.ArticleAdapter
+import com.iut.kotlin_rss.adapter.FluxAdapter
 import com.iut.kotlin_rss.classes.Flux
 import com.iut.kotlin_rss.handler.DatabaseHandler
-import nl.bryanderidder.themedtogglebuttongroup.ThemedToggleButtonGroup
 import java.util.ArrayList
 
 class EditActivity : AppCompatActivity() {
@@ -37,7 +37,7 @@ class EditActivity : AppCompatActivity() {
                 listUrl.add(it.url!!)
             }
         }
-       val adapter = ListAdapter(this,listName, listUrl);
+        val adapter = FluxAdapter(this,listName, listUrl);
         lvEditFlux.adapter = adapter
         lvEditFlux.setOnItemClickListener { _, _, position, _ ->
             val flux = fluxs[position]
