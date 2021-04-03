@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     private fun loadArticles() {
         val databaseHandler = DatabaseHandler(this)
         val fluxs: List<Flux> = databaseHandler.viewFlux()
-        if (fluxs.isEmpty()) return
+        if (fluxs.isEmpty()) return;
 
         GlobalScope.launch(Dispatchers.Default) {
             fluxs.forEach { flux ->
@@ -135,10 +135,10 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
                 }
             }
         }
-        if(arrTitle.isEmpty()){
+        if(arrTitle.isEmpty()) {
             val tv: TextView = findViewById(R.id.no_flux)
             tv.visibility = View.VISIBLE
-        }else {
+        } else {
             val tv: TextView = findViewById(R.id.no_flux)
             tv.visibility = View.INVISIBLE
         }
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     }
 
     override fun onBackPressed() {
-        return
+        return;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
