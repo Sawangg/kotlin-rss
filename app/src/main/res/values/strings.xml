@@ -4,11 +4,14 @@
     <string name="no_flux">Please add a RSS flux</string>
 
     <string name="add_flux_title">Flux creation</string>
-    <string name="add_flux_name_title">Flux name</string>
+    <string name="edit_flux_title">Flux edit</string>
+    <string name="add_and_edit_flux_name_title">Flux name</string>
     <string name="add_flux_name_caption">Name</string>
-    <string name="add_flux_uri_title">Flux URI</string>
+    <string name="add_and_edit_flux_uri_title">Flux URI</string>
     <string name="add_flux_uri_caption">URI</string>
     <string name="add_flux_add_button">ADD</string>
+    <string name="delete_flux_delete_button">DELETE</string>
+    <string name="edit_flux_edit_button">SAVE CHANGES</string>
 
     <string name="nav_filter_text">FILTER</string>
     <string name="logo_desc">Le logo de notre application</string>

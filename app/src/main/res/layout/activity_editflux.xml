@@ -12,7 +12,7 @@
         android:layout_height="40dp"
         android:layout_marginStart="48dp"
         android:layout_marginTop="24dp"
-        android:text="@string/add_flux_title"
+        android:text="@string/edit_flux_title"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
@@ -44,12 +44,9 @@
             android:id="@+id/flux_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autofillHints="name"
             android:ems="15"
-            android:hint="@string/add_and_edit_flux_name_title"
             android:inputType="text"
-            android:labelFor="@id/flux_name_title"
-            android:text="@string/add_flux_name_caption" />
+            android:labelFor="@id/flux_name_title" />
 
     </LinearLayout>
 
@@ -73,34 +70,47 @@
             android:id="@+id/flux_uri"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autofillHints="uri"
             android:ems="15"
-            android:hint="@string/add_flux_title"
             android:inputType="textUri"
-            android:labelFor="@id/flux_uri_title"
-            android:text="@string/add_flux_uri_caption" />
+            android:labelFor="@id/flux_uri_title" />
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/flux_categories"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="364dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/add_flux_add_button"
-        android:layout_width="150dp"
+    <LinearLayout
+        android:id="@+id/ll_edit_or_delete_flux"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:text="@string/add_flux_add_button"
-        android:textSize="16sp"
-        android:background="@drawable/rounded_corner"
-        app:backgroundTint="@color/main_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="536dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/delete_flux_delete_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/rounded_corner"
+            android:text="@string/delete_flux_delete_button"
+            android:textSize="16sp"
+            app:backgroundTint="@color/main_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/edit_flux_edit_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:text="@string/edit_flux_edit_button"
+            android:textSize="16sp"
+            app:backgroundTint="@color/main_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
