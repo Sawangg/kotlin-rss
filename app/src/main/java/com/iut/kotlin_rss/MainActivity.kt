@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.category.*
 import kotlinx.android.synthetic.main.filtermenu.*
 import kotlinx.coroutines.*
 import java.util.ArrayList
+import android.app.UiModeManager;
+import androidx.appcompat.app.AppCompatDelegate
 
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     private val notificationId = 101;
     lateinit var listView: ListView;
     var fluxs: ArrayList<Flux> = ArrayList()
+    var category = ""
+    var favori = false
 
 
     private fun createNotificationChannel() {
@@ -65,6 +69,8 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         listView = findViewById(R.id.lv_flux)
         createNotificationChannel()
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         val buttonAdd: ImageView = findViewById(R.id.add_button);
         buttonAdd.setOnClickListener {
             val intent = Intent(this@MainActivity, AddFlux::class.java);
@@ -82,81 +88,67 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         val filterButton: TextView = findViewById(R.id.category_title);
 
         filterButton.setOnClickListener {
-            val dialog = FilterMenu({ displayArticles("", false) }) {
-                val fav = it.filter_dof_switch.isChecked
+            val dialog = FilterMenu(category, favori)
+            dialog.show(supportFragmentManager, "TAG")
+            dialog.setOnDismiss {
+                favori = it.filter_dof_switch.isChecked
+                category = ""
                 if (it.category_wrapper_group.selectedButtons.size > 0) {
                     val btn = it.category_wrapper_group.selectedButtons[0]
-                    displayArticles(btn.text, fav)
-                }else {
-                    displayArticles("", fav)
+                    category = btn.text
                 }
+                displayArticles()
             }
-            dialog.show(supportFragmentManager, "TAG")
         }
-
-        if (intent.getParcelableArrayListExtra<Flux>("Flux") != null) {
-            fluxs = intent.getParcelableArrayListExtra("Flux")!!
-            displayArticles("", false)
-            val tv: TextView = findViewById(R.id.no_flux)
-            tv.visibility = View.INVISIBLE
-        } else {
-            this.loadArticles()
-        }
+        this.loadArticles()
     }
 
     private fun loadArticles() {
         val databaseHandler = DatabaseHandler(this)
-        val fluxs: List<Flux> = databaseHandler.viewFlux()
-        if (fluxs.isEmpty()) return;
-
+        val fluxs1: List<Flux> = databaseHandler.viewFlux()
+        if (fluxs1.isEmpty()) return;
+        val tv: TextView = findViewById(R.id.no_flux)
+        tv.visibility = View.INVISIBLE
         GlobalScope.launch(Dispatchers.Default) {
-            fluxs.forEach { flux ->
+            fluxs1.forEach { flux ->
                 flux.read()
             }
-        }.invokeOnCompletion {
-            val intent = Intent(this@MainActivity, MainActivity::class.java);
-            intent.putParcelableArrayListExtra("Flux", ArrayList(fluxs))
-            startActivity(intent);
-            finish()
+            withContext(Dispatchers.Main) {
+                fluxs = fluxs1 as ArrayList<Flux>
+                category = ""
+                favori = false
+                displayArticles()
+            }
         }
     }
 
-    private fun displayArticles(category: String, fav: Boolean) {
+    private fun displayArticles() {
         val arrTitle = ArrayList<String>()
         val arrDesc = ArrayList<String>()
         val arrLink = ArrayList<String>()
         val arrDate = ArrayList<String>()
-        if (category == "") {
-            fluxs.forEach {
-                if (fav) {
-                    if (it.fav) {
-                        it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
-                    }
-                } else {
+        var fluxs1 = fluxs
+
+        if (category != "")
+            fluxs1 = fluxs1.filter { it.category == category } as ArrayList<Flux>
+
+        fluxs1.forEach {
+            if (favori) {
+                if (it.fav) {
                     it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
                 }
+            } else {
+                it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
+            }
+        }
 
-            }
-        } else {
-            fluxs.forEach {
-                if (it.category == category) {
-                    if (fav) {
-                        if (it.fav) {
-                            it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
-                        }
-                    } else {
-                        it.formatAllArticles(arrTitle, arrDesc, arrLink, arrDate)
-                    }
-                }
-            }
-        }
-        if (arrTitle.isEmpty()) {
-            val tv: TextView = findViewById(R.id.no_result)
+        val tv: TextView = findViewById(R.id.no_result)
+
+        if (arrTitle.isEmpty())
             tv.visibility = View.VISIBLE
-        } else {
-            val tv: TextView = findViewById(R.id.no_result)
+        else
             tv.visibility = View.INVISIBLE
-        }
+
         listView.adapter = ArticleAdapter(this, arrTitle, arrDesc, arrLink, arrDate)
     }
 
