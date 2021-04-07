@@ -2,4 +2,6 @@
 
 A kotlin app that is designed to see your RSS feeds easily.
 
-![img](https://i.imgur.com/2kftGle.png)
+<p align="center">
+  <img src="https://i.imgur.com/YD2hdkw.png" alt="k-rss">
+</p>
